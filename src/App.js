@@ -8,7 +8,7 @@ import CartContext from "./contexts/CartContext";
 import Navigation from './components/Navigation';
 import Products from './components/Products';
 import ShoppingCart from './components/ShoppingCart';
-import {assertInputSourceMap} from "@babel/core/lib/config/validation/option-assertions";
+
 
 function App() {
 	const [products] = useState(data);
@@ -19,11 +19,18 @@ function App() {
 		setCart([...cart, item])
 	};
 
+	const removeItem = id => {
+		const newCart = cart.filter(item => (id !== item.id))
+		return setCart(newCart)
+
+	}
+
+
 	return (
 		<ProductContext.Provider value={{products, addItem}}>
-		<CartContext.Provider value={cart}>
+		<CartContext.Provider value={{cart, removeItem}}>
 		<div className="App">
-			<Navigation cart={cart} />
+			<Navigation/>
 
 			{/* Routes */}
 			<Route exact path="/">
@@ -31,7 +38,7 @@ function App() {
 			</Route>
 
 			<Route path="/cart">
-				<ShoppingCart cart={cart} />
+				<ShoppingCart/>
 			</Route>
 		</div>
 		</CartContext.Provider>
